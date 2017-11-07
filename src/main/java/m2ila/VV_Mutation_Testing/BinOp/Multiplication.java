@@ -1,4 +1,4 @@
-package m2ila.VV_Mutation_Testing;
+package m2ila.VV_Mutation_Testing.BinOp;
 
 public class Multiplication implements BinOperation{
 

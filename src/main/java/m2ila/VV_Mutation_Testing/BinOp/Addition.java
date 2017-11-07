@@ -1,11 +1,11 @@
-package m2ila.VV_Mutation_Testing;
+package m2ila.VV_Mutation_Testing.BinOp;
 
-public class Division {
+public class Addition implements BinOperation{
 
 	private double a;
 	private double b;
 	
-	public Division(double a, double b){
+	public Addition(double a, double b){
 		this.a = a;
 		this.b = b;
 	}
@@ -29,10 +29,11 @@ public class Division {
 	}
 
 	public double operation() {
-		return this.a / this.b;
+		return this.a + this.b;
 	}
 
 	public void print() {
-		System.out.println( this.a+" / "+this.b+" = "+operation());
+		System.out.println( this.a+" + "+this.b+" = "+operation());
 	}
+
 }
