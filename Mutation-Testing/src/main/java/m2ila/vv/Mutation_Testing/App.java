@@ -1,5 +1,12 @@
 package m2ila.vv.Mutation_Testing;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
+
 import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
@@ -14,10 +21,28 @@ import javassist.expr.ExprEditor;
 import javassist.expr.FieldAccess;
 import javassist.expr.MethodCall;
 import javassist.expr.NewExpr;
+import javassist.util.proxy.RuntimeSupport;
+
 
 
 public class App 
 {
+	
+	public static void runTests() throws ClassNotFoundException, MalformedURLException{
+		JUnitCore core = new JUnitCore();
+		URLClassLoader urlClassLoader = URLClassLoader.newInstance(new URL[] {
+	       new URL("file:///home/aminesoumiaa/workspace/VV-Mutation-Testing/inputs/target/test-classes/")
+	    });
+
+		Class<?> clazz = urlClassLoader.loadClass("m2ila.vv.inputs.BinOperationTest");
+        Result result = core.run(clazz);
+        System.out.println("FINISHED");
+        System.out.println(String.format("| RUN: %d", result.getRunCount()));
+        System.out.println(String.format("| IGNORED: %d", result.getIgnoreCount()));
+        System.out.println(String.format("| FAILURES: %d", result.getFailureCount()));
+        System.out.println(String.format("| TIME: %dms", result.getRunTime()));
+	}
+	
 	public void substitue(CtMethod ctMethod) throws BadBytecode{
 		// dadd (+) opcode
 		int PLUS_CODE=99;
@@ -35,8 +60,8 @@ public class App
 	        }
 	    }
 	}
-	public static void main(String[] args )
-	{
+	
+	public static void mutate(){
 		try {
 			// WIP 
 			// Creating container
@@ -60,7 +85,7 @@ public class App
 						// TODO call substitute method 
 						//substitute(ctMethod);
 						
-						//Work in Progres ..
+						//Work in Progress ..
 						
 						if (expr.getClass().equals("+"))
 							System.out.println("Found +");
@@ -76,6 +101,17 @@ public class App
 			exc.printStackTrace();
 		}
 
+	}
+	public static void main(String[] args )
+	{
+		//mutate();
+		try {
+			runTests();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

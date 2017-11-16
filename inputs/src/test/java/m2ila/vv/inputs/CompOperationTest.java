@@ -1,4 +1,4 @@
-package m2ila.vv.project.inputs;
+package m2ila.vv.inputs;
 
 import org.junit.Test;
 
