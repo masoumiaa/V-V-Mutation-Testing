@@ -8,24 +8,21 @@ import javassist.bytecode.BadBytecode;
 import javassist.bytecode.CodeAttribute;
 import javassist.bytecode.CodeIterator;
 
-public class AdditionMutator {
+public class DivisionMutator {
 
 	public List<Integer> getPlaces(CtMethod ctMethod) throws BadBytecode{
 		//places list
 		List<Integer> places =new ArrayList<Integer>();
-		// dadd (+) opcode
-		int PLUS_CODE=99;
-		// dsub (-) opcode
-		int MINUS_CODE=103;
-		
+		// ddiv (/) opcode
+		int DIV_CODE=111;
 		CodeAttribute _codeAttribute = ctMethod.getMethodInfo().getCodeAttribute();
 	    CodeIterator _codeIterator = _codeAttribute.iterator();
 	    
 	    while (_codeIterator.hasNext()) {
 	        int _indexOfCode = _codeIterator.next();
 	        int _valueOfIndex8Bit = _codeIterator.byteAt(_indexOfCode);
-	        //Checking if Opcode is dadd
-	        if(_valueOfIndex8Bit==PLUS_CODE ) {
+	        //Checking if Opcode is ddiv
+	        if(_valueOfIndex8Bit==DIV_CODE ) {
 	            //get operator index & push it into the list
 	            places.add(_indexOfCode);
 	        }
@@ -34,11 +31,10 @@ public class AdditionMutator {
 	}
 	
 	public void substitue(CtMethod ctMethod, int index) throws BadBytecode{
-		// dadd (+) opcode
-		int PLUS_CODE=99;
-		// dsub (-) opcode
-		int MINUS_CODE=103;
-		
+		// ddiv (/) opcode
+		int DIV_CODE=111;
+		// dmult (*) opcode
+		int MULT_CODE=107;
 		CodeAttribute _codeAttribute = ctMethod.getMethodInfo().getCodeAttribute();
 	    CodeIterator _codeIterator = _codeAttribute.iterator();
 	    
@@ -47,10 +43,10 @@ public class AdditionMutator {
 	        // if it's the right index
 	        if(_indexOfCode == index){
 		        int _valueOfIndex8Bit = _codeIterator.byteAt(_indexOfCode);
-		        // Checking if Opcode is dadd
-		        if(_valueOfIndex8Bit==PLUS_CODE ) {
-		            //Changing instruction from + to -
-		            _codeIterator.writeByte(MINUS_CODE, _indexOfCode);
+		        // Checking if Opcode is ddiv
+		        if(_valueOfIndex8Bit==DIV_CODE ) {
+		            //Changing instruction from / to *
+		            _codeIterator.writeByte(MULT_CODE, _indexOfCode);
 		            break;
 		        }
 	        }

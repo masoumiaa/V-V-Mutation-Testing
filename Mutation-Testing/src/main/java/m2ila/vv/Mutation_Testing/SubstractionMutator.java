@@ -21,7 +21,7 @@ public class SubstractionMutator {
 	    while (_codeIterator.hasNext()) {
 	        int _indexOfCode = _codeIterator.next();
 	        int _valueOfIndex8Bit = _codeIterator.byteAt(_indexOfCode);
-	        //Checking if Opcode is +
+	        //Checking if Opcode is dsub
 	        if(_valueOfIndex8Bit==MINUS_CODE ) {
 	            //get operator index & push it into the list
 	            places.add(_indexOfCode);
@@ -30,7 +30,7 @@ public class SubstractionMutator {
 	    return places;
 	}
 	
-	public void substitue(CtMethod ctMethod) throws BadBytecode{
+	public void substitue(CtMethod ctMethod, int index) throws BadBytecode{
 		// dadd (+) opcode
 		int PLUS_CODE=99;
 		// dsub (-) opcode
@@ -40,11 +40,15 @@ public class SubstractionMutator {
 	    
 	    while (_codeIterator.hasNext()) {
 	        int _indexOfCode = _codeIterator.next();
-	        int _valueOfIndex8Bit = _codeIterator.byteAt(_indexOfCode);
-	        //Checking if Opcode is +
-	        if(_valueOfIndex8Bit==MINUS_CODE ) {
-	            //Changing instruction from + to -
-	            _codeIterator.writeByte(PLUS_CODE, _indexOfCode);
+	        // if it's the right index
+	        if(_indexOfCode == index){
+		        int _valueOfIndex8Bit = _codeIterator.byteAt(_indexOfCode);
+		        // Checking if Opcode is dsub
+		        if(_valueOfIndex8Bit==MINUS_CODE ) {
+		            //Changing instruction from + to -
+		            _codeIterator.writeByte(PLUS_CODE, _indexOfCode);
+		            break;
+		        }
 	        }
 	    }
 	}
