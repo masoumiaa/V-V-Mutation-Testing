@@ -1,12 +1,20 @@
 package m2ila.vv.inputs;
 
 import static org.junit.Assert.*;
+
+import org.junit.Before;
 import org.junit.Test;
 import m2ila.vv.inputs.ComparisonOperations;
 
 public class CompOperationTest {
 
-	ComparisonOperations compOp = new ComparisonOperations();
+	private ComparisonOperations compOp;
+	
+	@Before
+	public void setUp(){
+		compOp = new ComparisonOperations();
+	}
+	
 	@Test
 	public void LowerTest1(){
 		assertTrue(compOp.Lower(1.0, 3.0));

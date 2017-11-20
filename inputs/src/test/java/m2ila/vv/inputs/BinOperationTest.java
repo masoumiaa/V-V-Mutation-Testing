@@ -2,13 +2,19 @@ package m2ila.vv.inputs;
 
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 
 public class BinOperationTest {
-
-	BinOperations binop = new BinOperations(); 
 	
+	private BinOperations binop;
+	
+	@Before
+	public void setUp(){
+		binop = new BinOperations(); 
+	}
+
 	@Test
 	public void AdditionTest1(){
 		Assert.assertEquals(binop.Addition(1.0,1.0),2.0, 0.0);
@@ -27,5 +33,10 @@ public class BinOperationTest {
 	@Test
 	public void DivisionTest1() throws Exception{
 		Assert.assertEquals(binop.Division(2.0,2.0),1.0, 0.0);
+	}
+	
+	@Test(expected = Exception.class)
+	public void DivisionTest2() throws Exception{
+		binop.Division(2.0,0.0);
 	}
 }
