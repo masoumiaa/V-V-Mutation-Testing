@@ -25,6 +25,9 @@ public class ClassLoader {
 	
 	public CtMethod getMethodByName(CtClass ctClass, String name) throws NotFoundException {
 		CtMethod ctm = ctClass.getDeclaredMethod(name);
+		//printing method name 
+		// TODO replace prints with reporting
+		System.out.println("Method found : "+ctm.getName());
 		return ctm;
 	}
 
