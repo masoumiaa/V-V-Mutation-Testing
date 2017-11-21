@@ -114,6 +114,19 @@ public class App {
 		// Run Tests 
 		tr.runTests();
 		
+		
+		  ////////////////////////////////////////////////////////////
+		 ////////////		2- Remove Method Body			/////////
+		////////////////////////////////////////////////////////////
+		
+		MethodBodyMutator mbt = new MethodBodyMutator();
+		// run body remove mutation
+		try {
+			mbt.runMutation();
+		} catch (CannotCompileException e) {
+			e.printStackTrace();
+		}
+		//TODO run tests
 	}
 
 }
