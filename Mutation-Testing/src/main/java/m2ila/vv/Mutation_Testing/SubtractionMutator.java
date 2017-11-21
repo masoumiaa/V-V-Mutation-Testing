@@ -8,7 +8,7 @@ import javassist.bytecode.BadBytecode;
 import javassist.bytecode.CodeAttribute;
 import javassist.bytecode.CodeIterator;
 
-public class SubstractionMutator {
+public class SubtractionMutator {
 
 	public List<Integer> getPlaces(CtMethod ctMethod) throws BadBytecode{
 		//places list

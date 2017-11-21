@@ -21,8 +21,8 @@ public class BinOperationTest {
 	}
 	
 	@Test
-	public void SubstractionTest1(){
-		Assert.assertEquals(binop.Substraction(1.0,1.0),0.0, 0.0);
+	public void SubtractionTest1(){
+		Assert.assertEquals(binop.Subtraction(1.0,1.0),0.0, 0.0);
 	}
 	
 	@Test

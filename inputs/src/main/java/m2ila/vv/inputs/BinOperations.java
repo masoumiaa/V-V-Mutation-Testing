@@ -6,7 +6,7 @@ public class BinOperations {
 		return a + b;
 	}
 	
-	public double Substraction(double a, double b){
+	public double Subtraction(double a, double b){
 		return a - b;
 	}
 	
