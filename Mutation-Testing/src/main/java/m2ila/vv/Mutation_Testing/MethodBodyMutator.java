@@ -10,18 +10,42 @@ public class MethodBodyMutator {
 
 	private CtClass ctClass;
 	private CtMethod ctMethod;
+	private ClassLoader clo;
 	
-	public void runMutation() throws NotFoundException, CannotCompileException{
-		// Load classes
-		ClassLoader clo = new ClassLoader();
-		ClassPool pool = clo.loadClasses();
-		// Get method class
-		this.ctClass = clo.getCtClass(pool, "MethodOperations");
+	public void removeBodyMutation() throws NotFoundException, CannotCompileException{
+		// Load class 
+		this.loadClass();
 		// Load method
-		this.ctMethod = clo.getMethodByName(this.ctClass, "method");
+		this.ctMethod = clo.getMethodByName(this.ctClass, "method1");
 		// Remove method body
 		this.removeMethodBody();
 		// TODO this.runTests()
+	}
+	
+	public void replaceBodyToFalseMutation() throws NotFoundException, CannotCompileException{
+		// Load class 
+		this.loadClass();
+		// Load method
+		this.ctMethod = clo.getMethodByName(this.ctClass, "method2");
+		// Replace method body by (return false)
+		this.replaceMethodBodyToFalse();
+		// TODO this.runTests()
+	}
+
+	private void loadClass() throws NotFoundException, CannotCompileException{
+		// Load classes
+		this.clo = new ClassLoader();
+		ClassPool pool = clo.loadClasses();
+		// Get method class
+		this.ctClass = clo.getCtClass(pool, "MethodOperations");
+	}
+	
+	private void replaceMethodBodyToFalse() throws CannotCompileException {
+		//Replace method body by (return false) 
+		this.ctMethod.setBody("return false;");		 
+		// TODO replace prints with reporting
+		System.out.println("Method Body Removed");
+		
 	}
 	
 	private void removeMethodBody() throws NotFoundException, CannotCompileException{

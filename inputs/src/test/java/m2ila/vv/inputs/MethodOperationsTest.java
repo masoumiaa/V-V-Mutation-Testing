@@ -16,9 +16,20 @@ public class MethodOperationsTest {
 	}
 
 	@Test
-	public void methodTest1(){
-		mo.method();
+	public void method1Test1(){
+		mo.method1();
 		Assert.assertEquals(mo.getA(),1.0, 0.0);
+	}
+	
+	@Test
+	public void method2Test1(){
+		Assert.assertTrue(mo.method2(0.0));
+	}
+	
+	@Test
+	public void method2Test2(){
+		mo.setA(2.0);
+		Assert.assertTrue(mo.method2(2.0));
 	}
 	
 }

@@ -2,32 +2,15 @@ package m2ila.vv.Mutation_Testing;
 
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.junit.runner.JUnitCore;
-import org.junit.runner.Result;
-import org.junit.runner.notification.Failure;
 
 import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
-import javassist.Loader;
 import javassist.NotFoundException;
-import javassist.Translator;
 import javassist.bytecode.BadBytecode;
-import javassist.bytecode.CodeAttribute;
-import javassist.bytecode.CodeIterator;
-import javassist.expr.ExprEditor;
-import javassist.expr.FieldAccess;
-import javassist.expr.MethodCall;
-import javassist.expr.NewExpr;
-import javassist.util.proxy.RuntimeSupport;
-
-
 
 public class App {
 	
@@ -122,11 +105,25 @@ public class App {
 		MethodBodyMutator mbt = new MethodBodyMutator();
 		// run body remove mutation
 		try {
-			mbt.runMutation();
+			mbt.removeBodyMutation();
 		} catch (CannotCompileException e) {
 			e.printStackTrace();
 		}
 		//TODO run tests
+		
+		
+		  ////////////////////////////////////////////////////////////////////
+		 ////////////		3- Replace Method Body by return false	/////////
+		////////////////////////////////////////////////////////////////////
+
+		// run body to return false Mutation
+		try {
+			mbt.replaceBodyToFalseMutation();
+		} catch (CannotCompileException e) {
+			e.printStackTrace();
+		}
+		//TODO run tests
+		
 	}
 
 }
