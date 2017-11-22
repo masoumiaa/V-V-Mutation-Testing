@@ -16,6 +16,7 @@ public class BinOpMutation {
 	TestRunner tr = new TestRunner();
 	List<Integer> places;
 	CtClass ctClass;
+	StringBuilder sb = new StringBuilder();
 	
 	public void runBinOpMutations() throws NotFoundException, ClassNotFoundException, MalformedURLException, BadBytecode{
 		//Load Classes
@@ -41,12 +42,16 @@ public class BinOpMutation {
 		// Get operator '+' places
 		places = new ArrayList<Integer>();
 		places = am.getPlaces(addCtMethod);
-		// For each index, Run '+' mutation
+		// For each index, Run '+' mutation, run tests
 		for (Integer index : places) {
+			// mutation
 			am.substitue(addCtMethod, index);
+			// write copy class
+			// TODO ctClass.writeFile();
+			// Run Tests 
+			String testReport = tr.runTests("BinOperationTest");
+			this.sb.append(testReport+'\n');
 		}
-		// Run Tests 
-		tr.runTests();
 	}
 	
 	/////////////////////--- Subtraction ---////////////////////
@@ -60,10 +65,14 @@ public class BinOpMutation {
 		places = sm.getPlaces(subCtMethod);
 		// For each index, Run '-' mutation
 		for (Integer index : places) {
+			// mutation
 			sm.substitue(subCtMethod, index);
+			// write copy class
+			// TODO ctClass.writeFile();
+			// Run Tests 
+			String testReport = tr.runTests("BinOperationTest");
+			this.sb.append(testReport+'\n');
 		}
-		// Run Tests 
-		tr.runTests();
 	}
 
 	/////////////////////--- Division ---////////////////////
@@ -77,10 +86,14 @@ public class BinOpMutation {
 		places = dm.getPlaces(divCtMethod);
 		// For each index, Run '/' mutation
 		for (Integer index : places) {
+			// mutation
 			dm.substitue(divCtMethod, index);
+			// write copy class
+			// TODO ctClass.writeFile();
+			// Run Tests 
+			String testReport = tr.runTests("BinOperationTest");
+			this.sb.append(testReport+'\n');
 		}
-		// Run Tests 
-		tr.runTests();
 	}
 	
 	/////////////////////--- Multiplication ---////////////////////
@@ -94,9 +107,13 @@ public class BinOpMutation {
 		places = mm.getPlaces(multCtMethod);
 		// For each index, Run '*' mutation
 		for (Integer index : places) {
+			// mutation
 			mm.substitue(multCtMethod, index);
+			// write copy class
+			// TODO ctClass.writeFile();
+			// Run Tests 
+			String testReport = tr.runTests("BinOperationTest");
+			this.sb.append(testReport+'\n');
 		}
-		// Run Tests 
-		tr.runTests();
 	}
 }

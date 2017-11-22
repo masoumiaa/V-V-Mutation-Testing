@@ -21,6 +21,11 @@ public class Reporter {
 		this.sb.append('\n');
 	}
 	
+	public void insertLine(){
+		this.sb.append("<hr>");
+		this.sb.append('\n');
+	}
+	
 	public void save(){
         pw.write(sb.toString());
         pw.close();

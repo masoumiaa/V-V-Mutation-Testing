@@ -17,16 +17,19 @@ public class App {
 	public static void main(String[] args ) throws ClassNotFoundException, MalformedURLException, 
 											NotFoundException, BadBytecode, FileNotFoundException {
 		//init reporter
-		Reporter rp = new Reporter();
-		rp.init();
+		Reporter report = new Reporter();
+		report.init();
 		
 		  ////////////////////////////////////////////////////////////
 		 ////////////	1-Binary Operations (+,-,*,/)		/////////
 		////////////////////////////////////////////////////////////
+		
 		BinOpMutation bom = new BinOpMutation();
 		// run binary operations Mutation
 		bom.runBinOpMutations();
-		
+		// TODO Get Reporter stringBuilder
+		//  str = bom.getReport(); 
+		//  report.insert(str);
 		
 		  ////////////////////////////////////////////////////////////
 		 ////////////		2- Remove Method Body			/////////
@@ -41,8 +44,9 @@ public class App {
 		} catch (CannotCompileException e) {
 			e.printStackTrace();
 		}
-		// Get Reporter stringBuilder
-		// TODO mbt.getStringBuilder();
+		// TODO Get Reporter stringBuilder
+		//  str = mbt.getReport(); 
+		//  report.insert(str);
 		//TODO run tests
 		
 		
@@ -60,8 +64,11 @@ public class App {
 		}
 		// TODO Get Mutation Report
 		//  str = mbt.getReport(); 
-		//  strBuilder.append(str); 
+		//  report.insert(str);
 		//TODO run tests
+		
+		// Save Report 
+		report.save();
 		
 	}
 
