@@ -24,15 +24,27 @@ public class App {
 		 ////////////	1-Binary Operations (+,-,*,/)		/////////
 		////////////////////////////////////////////////////////////
 		
-		BinOpMutation bom = new BinOpMutation();
+		OperationsMutation om = new OperationsMutation();
 		// run binary operations Mutation
-		bom.runBinOpMutations();
+		om.runBinOpMutations();
+		// TODO Get Reporter stringBuilder
+		//  str = bom.getReport(); 
+		//  report.insert(str);
+		
+		
+		  ////////////////////////////////////////////////////////////////
+		 ////////////	2-Comparison Operations (<,<=,>,>=)		/////////
+		////////////////////////////////////////////////////////////////
+		
+
+		// run Comparison operations Mutation
+		om.runCompOpMutations();
 		// TODO Get Reporter stringBuilder
 		//  str = bom.getReport(); 
 		//  report.insert(str);
 		
 		  ////////////////////////////////////////////////////////////
-		 ////////////		2- Remove Method Body			/////////
+		 ////////////		3- Remove Method Body			/////////
 		////////////////////////////////////////////////////////////
 		
 		MethodBodyMutator mbt = new MethodBodyMutator();
@@ -51,7 +63,7 @@ public class App {
 		
 		
 		  ////////////////////////////////////////////////////////////////////
-		 ////////////		3- Replace Method Body by return false	/////////
+		 ////////////		4- Replace Method Body by return false	/////////
 		////////////////////////////////////////////////////////////////////
 
 		// Set Reporter stringBuilder

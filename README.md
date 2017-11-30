@@ -1,13 +1,26 @@
-# V-V-Mutation-Testing
+# V&V-Mutation-Testing Project - 2017/2018
 
-* V&V Practical work : Mutation Testing
-* Binôme : Mhamed-Amine SOUMIAA & Abdelghani Merzouk
-*-------------------------------------------------------
+## V&V Practical work : Mutation Testing
+## Mhamed-Amine Soumiaa & Abdelghani Merzouk
 
-* steps : 
-* 1-Detect all places we must change.
-* For each operator found : 
-* 2-Replace one at the moment
-* 3-Report operator place
-* 4-Run the test suite
-* 5-report if it fails
+### Chosen Assignement : Mutation Testing
+### Chosen operations : 
+* Remove all instructions in the body of a `void` method.
+* Replace the body of a boolean method by a single `return true` (or `return false`) instruction.
+* Perform the following operator substitution in the context of arithmetic expressions:
+
+| Original operator | Replaced by |
+|-------------------|-------------|
+|        +          |      -      |
+|        -          |      +      |
+|        *          |      /      |
+|        /          |      *      |
+* Replace a comparison operator by another given the following possible substitutions:
+
+| Original operator | Replaced by |
+|-------------------|-------------|
+|        <          |     <=      |
+|        >          |     >=      |
+|        <=         |      <      |
+|        >=         |      >      |
+
