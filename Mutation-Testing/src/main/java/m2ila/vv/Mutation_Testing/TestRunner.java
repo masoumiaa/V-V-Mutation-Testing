@@ -17,6 +17,7 @@ public class TestRunner {
 		StringBuilder sb = new StringBuilder();
 		URLClassLoader urlClassLoader = URLClassLoader.newInstance(new URL[] {
 	       new URL("file:///home/aminesoumiaa/workspace/VV-Mutation-Testing/inputs/target/test-classes/"),
+	       // TODO change this path to temp classes url
 	       new URL("file:///home/aminesoumiaa/workspace/VV-Mutation-Testing/inputs/target/classes/")
 	    });
 		Class<?> clazz = urlClassLoader.loadClass("m2ila.vv.inputs."+testClass);
