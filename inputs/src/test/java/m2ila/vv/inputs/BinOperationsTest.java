@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class BinOperationTest {
+public class BinOperationsTest {
 	
 	private BinOperations binop;
 	

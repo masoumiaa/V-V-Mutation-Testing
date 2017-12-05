@@ -12,31 +12,42 @@ import javassist.NotFoundException;
 
 public class TestRunner {
 
+	private String pathToClasses;
+	private String pathToTests;
+	
+	public TestRunner(String urlClasses, String urlTests){
+		this.pathToClasses = "file://"+urlClasses;
+		this.pathToTests = "file://"+urlTests+"output/";
+		System.out.println(this.pathToClasses);
+		System.out.println(this.pathToTests);
+	}
+	
 	public String runTests(String testClass) throws ClassNotFoundException, MalformedURLException, NotFoundException{
 		
 		StringBuilder sb = new StringBuilder();
 		URLClassLoader urlClassLoader = URLClassLoader.newInstance(new URL[] {
-	       new URL("file:///home/aminesoumiaa/workspace/VV-Mutation-Testing/inputs/target/test-classes/"),
-	       // TODO change this path to temp classes url
-	       new URL("file:///home/aminesoumiaa/workspace/VV-Mutation-Testing/inputs/target/classes/")
+	       new URL(this.pathToTests),
+	       new URL(this.pathToClasses)
 	    });
-		Class<?> clazz = urlClassLoader.loadClass("m2ila.vv.inputs."+testClass);
-		sb.append("Loaded test class : "+ testClass +'\n');
+		Class<?> clazz = urlClassLoader.loadClass("m2ila.vv.inputs."+testClass+"Test");
+		System.out.println("Loaded test class : "+ testClass +'\n');
 		
 		JUnitCore core = new JUnitCore();
-        Result result = core.run(clazz);
-        sb.append("TESTS FINISHED");
-        sb.append(String.format("| RUN: %d", result.getRunCount())+'\n');
+        Result result = new Result();
+        result = core.run(clazz);
+        System.out.println("TESTS FINISHED");
+        System.out.println(String.format("| RUN: %d", result.getRunCount())+'\n');
         if(result.wasSuccessful())
-        	sb.append("| ALL TESTS SUCCEEDED !");
+        	System.out.println("| ALL TESTS SUCCEEDED !");
         else
-        	sb.append("| FAILURE ! ");
+        	System.out.println("| FAILURE ! ");
         for (Failure failure : result.getFailures()){
-            sb.append(failure.toString()+'\n');
-            sb.append(failure.getTrace()+'\n');
+            System.out.println(failure.toString()+'\n');
+           // System.out.println(failure.getTrace()+'\n');
         }
-        sb.append(String.format("| TIME: %dms", result.getRunTime())+'\n');
-        
+        System.out.println(String.format("| TIME: %dms", result.getRunTime())+'\n');
+        System.out.println("********************************");
+        System.out.println("********************************");
         return sb.toString();
 	}
 }

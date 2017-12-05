@@ -1,5 +1,7 @@
 package m2ila.vv.Mutation_Testing;
 
+import java.io.IOException;
+
 import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
@@ -12,7 +14,7 @@ public class MethodBodyMutator {
 	private CtMethod ctMethod;
 	private ClassLoader clo;
 	
-	public void removeBodyMutation() throws NotFoundException, CannotCompileException{
+	public void removeBodyMutation() throws NotFoundException, CannotCompileException, IOException{
 		// Load class 
 		this.loadClass();
 		// Load method
@@ -22,7 +24,7 @@ public class MethodBodyMutator {
 		// TODO this.runTests()
 	}
 	
-	public void replaceBodyToFalseMutation() throws NotFoundException, CannotCompileException{
+	public void replaceBodyToFalseMutation() throws NotFoundException, CannotCompileException, IOException{
 		// Load class 
 		this.loadClass();
 		// Load method
@@ -40,17 +42,30 @@ public class MethodBodyMutator {
 		this.ctClass = clo.getCtClass(pool, "MethodOperations");
 	}
 	
-	private void replaceMethodBodyToFalse() throws CannotCompileException {
+	private void replaceMethodBodyToFalse() throws CannotCompileException, IOException {
 		//Replace method body by (return false) 
-		this.ctMethod.setBody("return false;");		 
+		this.ctMethod.setBody("return false;");	
+		
+		// write copy class
+		ctClass.writeFile("output");
+		// now modifiable again
+		ctClass.defrost();
+		
 		// TODO replace prints with reporting
-		System.out.println("Method Body Removed");
+		System.out.println("Method Body Replaced by (return false;)");
+		
 		
 	}
 	
-	private void removeMethodBody() throws NotFoundException, CannotCompileException{
+	private void removeMethodBody() throws NotFoundException, CannotCompileException, IOException{
 		//Remove method body 
-		this.ctMethod.setBody("");		 
+		this.ctMethod.setBody("return;");		
+
+		// write copy class
+		ctClass.writeFile("output");
+		// now modifiable again
+		ctClass.defrost();
+		
 		// TODO replace prints with reporting
 		System.out.println("Method Body Removed");
 		

@@ -1,9 +1,12 @@
 package m2ila.vv.Mutation_Testing;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
@@ -14,19 +17,26 @@ import javassist.bytecode.CodeIterator;
 
 public class OperationsMutation {
 	
-	ClassLoader cl = new ClassLoader();
-	TestRunner tr = new TestRunner();
+	ClassLoader cl;
+	TestRunner tr;
 	List<Integer> places;
 	CtClass ctClass;
 	StringBuilder sb = new StringBuilder();
 	InstructionReplacementMutator irm;
 	
-	public void runBinOpMutations() throws NotFoundException, ClassNotFoundException, MalformedURLException, BadBytecode{
+	public OperationsMutation(String classesUrl, String testsUrl){
+		this.tr = new TestRunner(classesUrl, testsUrl);
+		
+	}
+	
+	public void runBinOpMutations() throws NotFoundException, ClassNotFoundException, BadBytecode, CannotCompileException, IOException{
+		
+		cl = new ClassLoader();
 		//Load Classes
 		ClassPool pool = cl.loadClasses();
 		
 		//get Binary operations class
-		ctClass = cl.getCtClass(pool,"BinOperations");
+		ctClass = cl.getCtClass(pool,"BinOperations");		
 		
 		// Addition mutation
 		this.runMutation("Addition", Remplacement.PLUS_MINUS);
@@ -38,12 +48,13 @@ public class OperationsMutation {
 		this.runMutation("Multiplication", Remplacement.MULT_DIV);
 	}
 	
-	public void runCompOpMutations() throws NotFoundException, ClassNotFoundException, MalformedURLException, BadBytecode{
+	public void runCompOpMutations() throws NotFoundException, ClassNotFoundException, BadBytecode, CannotCompileException, IOException{
 		//Load Classes
-		ClassPool pool = cl.loadClasses();
+		cl = new ClassLoader();
+		ClassPool pool1 = cl.loadClasses();
 		
 		//get Binary operations class
-		ctClass = cl.getCtClass(pool,"ComparisonOperations");
+		ctClass = cl.getCtClass(pool1,"ComparisonOperations");
 		
 		// Lower mutation
 		this.runMutation("Lower", Remplacement.LOWER_LOWEROREQUAL);
@@ -55,9 +66,10 @@ public class OperationsMutation {
 		this.runMutation("HigherOrEqual", Remplacement.GREATEROREQUAL_GREATER);
 	}
 	
-	private void runMutation(String operation, Remplacement tuple) throws NotFoundException, BadBytecode, ClassNotFoundException, MalformedURLException{
+	private void runMutation(String operation, Remplacement tuple) throws NotFoundException, BadBytecode, ClassNotFoundException, CannotCompileException, IOException{
+
 		//get method by name
-		CtMethod ctMethod = cl.getMethodByName(this.ctClass, operation);
+		CtMethod ctMethod = cl.getMethodByName(ctClass, operation);
 		
 		// Init Instruction Mutator
 		irm = new InstructionReplacementMutator(tuple);
@@ -70,11 +82,18 @@ public class OperationsMutation {
 		for (Integer index : places) {
 			// mutation
 			irm.substitue(ctMethod, index);
+			System.out.println("subs *");
+			
 			// write copy class
-			// TODO ctClass.writeFile(); or ctClass.write(new DataOutputStream(new FileOutputStream("tempClasses/B**.class")));
+			ctClass.writeFile("output");
+			// now modifiable again
+			ctClass.defrost();
+			
 			// Run Tests 
-			String testReport = tr.runTests("BinOperationTest");
-			this.sb.append(testReport+'\n');
+			tr.runTests(ctClass.getSimpleName());
+			
+			/*String testReport = tr.runTests("BinOperationTest");
+			this.sb.append(testReport+'\n');*/
 		}
 	}
 }
