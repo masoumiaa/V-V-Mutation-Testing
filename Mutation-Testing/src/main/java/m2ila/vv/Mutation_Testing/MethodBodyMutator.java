@@ -13,25 +13,32 @@ public class MethodBodyMutator {
 	private CtClass ctClass;
 	private CtMethod ctMethod;
 	private ClassLoader clo;
+	private TestRunner tr;
 	
-	public void removeBodyMutation() throws NotFoundException, CannotCompileException, IOException{
+	public MethodBodyMutator(String classesUrl, String testsUrl){
+		this.tr = new TestRunner(classesUrl, testsUrl);
+	}
+	
+	public void removeBodyMutation() throws NotFoundException, CannotCompileException, IOException, ClassNotFoundException{
 		// Load class 
 		this.loadClass();
 		// Load method
 		this.ctMethod = clo.getMethodByName(this.ctClass, "method1");
 		// Remove method body
 		this.removeMethodBody();
-		// TODO this.runTests()
+		// Run Tests 
+		this.tr.runTests(ctClass.getSimpleName());
 	}
 	
-	public void replaceBodyToFalseMutation() throws NotFoundException, CannotCompileException, IOException{
+	public void replaceBodyToFalseMutation() throws NotFoundException, CannotCompileException, IOException, ClassNotFoundException{
 		// Load class 
 		this.loadClass();
 		// Load method
 		this.ctMethod = clo.getMethodByName(this.ctClass, "method2");
 		// Replace method body by (return false)
 		this.replaceMethodBodyToFalse();
-		// TODO this.runTests()
+		// Run Tests 
+		this.tr.runTests(ctClass.getSimpleName());
 	}
 
 	private void loadClass() throws NotFoundException, CannotCompileException{
@@ -53,8 +60,6 @@ public class MethodBodyMutator {
 		
 		// TODO replace prints with reporting
 		System.out.println("Method Body Replaced by (return false;)");
-		
-		
 	}
 	
 	private void removeMethodBody() throws NotFoundException, CannotCompileException, IOException{
@@ -68,19 +73,5 @@ public class MethodBodyMutator {
 		
 		// TODO replace prints with reporting
 		System.out.println("Method Body Removed");
-		
-		//Getting all methodes 
-		/*////////////// TODO move this code
-		 * final CtMethod[] existingMethods = ctClass.getDeclaredMethods();
-		for (CtMethod ctMethod : existingMethods) {
-		
-			// Substituting method body 
-			ctMethod.instrument(new ExprEditor() {
-				public void edit(NewExpr expr) throws CannotCompileException{
-					if (expr.getClass().equals("+"))
-						System.out.println("Found +");
-				}
-			});
-		}*/
 	}
 }

@@ -59,7 +59,7 @@ public class App {
 		 ////////////		3- Remove Method Body			/////////
 		////////////////////////////////////////////////////////////
 		
-		MethodBodyMutator mbt = new MethodBodyMutator();
+		MethodBodyMutator mbt = new MethodBodyMutator(classesUrl,testsUrl);
 		// Set Reporter stringBuilder
 		// TODO mbt.setStringBuilder();
 		// run body remove mutation
@@ -71,7 +71,6 @@ public class App {
 		// TODO Get Reporter stringBuilder
 		//  str = mbt.getReport(); 
 		//  report.insert(str);
-		//TODO run tests
 		
 		
 		  ////////////////////////////////////////////////////////////////////
@@ -87,7 +86,7 @@ public class App {
 		// TODO Get Mutation Report
 		//  str = mbt.getReport(); 
 		//  report.insert(str);
-		//TODO run tests
+
 		
 		// Save Report 
 		report.save();
