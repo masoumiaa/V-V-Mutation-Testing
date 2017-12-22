@@ -47,7 +47,7 @@ public class ComparisonOperationsTest {
 	
 	@Test
 	public void HigherOrEqualTest1(){
-		assertTrue(compOp.HigherOrEqual(5.0, 3.0));
+		assertTrue(compOp.HigherOrEqual(3.0, 3.0));
 	}
 	
 	@Test

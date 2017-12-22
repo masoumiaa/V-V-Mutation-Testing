@@ -21,22 +21,25 @@ public class OperationsMutation {
 	TestRunner tr;
 	List<Integer> places;
 	CtClass ctClass;
-	StringBuilder sb = new StringBuilder();
+	StringBuilder sb;
 	InstructionReplacementMutator irm;
 	
 	public OperationsMutation(String classesUrl, String testsUrl){
 		this.tr = new TestRunner(classesUrl, testsUrl);
-		
+		this.cl = new ClassLoader(classesUrl);
 	}
 	
-	public void runBinOpMutations() throws NotFoundException, ClassNotFoundException, BadBytecode, CannotCompileException, IOException{
+	public void runBinOpMutations() throws NotFoundException, ClassNotFoundException, BadBytecode, CannotCompileException, IOException{	
 		
-		cl = new ClassLoader();
-		//Load Classes
-		ClassPool pool = cl.loadClasses();
+		// Load Classes	
+		ClassPool pool = cl.loadClasses();	
 		
-		//get Binary operations class
-		ctClass = cl.getCtClass(pool,"BinOperations");		
+		// init report 
+		sb = new StringBuilder();
+		
+		// get Binary operations class
+		ctClass = cl.getCtClass(pool,"BinOperations");
+		sb.append("<h2>* Class : BinOperations</h2>\n");
 		
 		// Addition mutation
 		this.runMutation("Addition", Remplacement.PLUS_MINUS);
@@ -50,11 +53,14 @@ public class OperationsMutation {
 	
 	public void runCompOpMutations() throws NotFoundException, ClassNotFoundException, BadBytecode, CannotCompileException, IOException{
 		//Load Classes
-		cl = new ClassLoader();
-		ClassPool pool1 = cl.loadClasses();
+		ClassPool pool = cl.loadClasses();
 		
+		// init report 
+		sb = new StringBuilder();
+				
 		//get Binary operations class
-		ctClass = cl.getCtClass(pool1,"ComparisonOperations");
+		ctClass = cl.getCtClass(pool,"ComparisonOperations");
+		sb.append("<h2>* Class : ComparisonOperations</h2>\n");
 		
 		// Lower mutation
 		this.runMutation("Lower", Remplacement.LOWER_LOWEROREQUAL);
@@ -69,7 +75,8 @@ public class OperationsMutation {
 	private void runMutation(String operation, Remplacement tuple) throws NotFoundException, BadBytecode, ClassNotFoundException, CannotCompileException, IOException{
 
 		//get method by name
-		CtMethod ctMethod = cl.getMethodByName(ctClass, operation);
+		CtMethod ctMethod = this.cl.getMethodByName(ctClass, operation);
+		sb.append("<h3>- Method : "+ctMethod.getName()+"</h3>\n");
 		
 		// Init Instruction Mutator
 		irm = new InstructionReplacementMutator(tuple);
@@ -80,9 +87,10 @@ public class OperationsMutation {
 		
 		// For each index, Run operator mutation, run tests
 		for (Integer index : places) {
-			// mutation
-			irm.substitue(ctMethod, index);
-			System.out.println("subs *");
+			sb.append("<h4>Operator found at index :"+index+"</h4>\n");
+			// launch mutation
+			irm.substitue(ctMethod, index, false);
+			sb.append("Substitute done !<br>\n");
 			
 			// write copy class
 			ctClass.writeFile("output");
@@ -90,10 +98,15 @@ public class OperationsMutation {
 			ctClass.defrost();
 			
 			// Run Tests 
-			tr.runTests(ctClass.getSimpleName());
+			String testReport = tr.runTests(ctClass.getSimpleName());
+			sb.append(testReport);
 			
-			/*String testReport = tr.runTests("BinOperationTest");
-			this.sb.append(testReport+'\n');*/
+			// revert last mutation
+			irm.substitue(ctMethod, index, true);
 		}
+	}
+	
+	public StringBuilder getSb() {
+		return sb;
 	}
 }

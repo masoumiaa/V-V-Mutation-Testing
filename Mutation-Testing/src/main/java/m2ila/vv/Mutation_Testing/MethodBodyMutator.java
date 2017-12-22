@@ -14,8 +14,13 @@ public class MethodBodyMutator {
 	private CtMethod ctMethod;
 	private ClassLoader clo;
 	private TestRunner tr;
+	private StringBuilder sb = new StringBuilder();
+	private String classesUrl;
+	private String testsUrl;
 	
 	public MethodBodyMutator(String classesUrl, String testsUrl){
+		this.classesUrl = classesUrl;
+		this.classesUrl = testsUrl;
 		this.tr = new TestRunner(classesUrl, testsUrl);
 	}
 	
@@ -24,10 +29,12 @@ public class MethodBodyMutator {
 		this.loadClass();
 		// Load method
 		this.ctMethod = clo.getMethodByName(this.ctClass, "method1");
+		sb.append("<h3>- Method : method1</h3>\n");
 		// Remove method body
 		this.removeMethodBody();
 		// Run Tests 
-		this.tr.runTests(ctClass.getSimpleName());
+		String testReport = this.tr.runTests(ctClass.getSimpleName());
+		sb.append(testReport);
 	}
 	
 	public void replaceBodyToFalseMutation() throws NotFoundException, CannotCompileException, IOException, ClassNotFoundException{
@@ -35,18 +42,21 @@ public class MethodBodyMutator {
 		this.loadClass();
 		// Load method
 		this.ctMethod = clo.getMethodByName(this.ctClass, "method2");
+		sb.append("<h3>- Method : method2</h3>\n");
 		// Replace method body by (return false)
 		this.replaceMethodBodyToFalse();
 		// Run Tests 
-		this.tr.runTests(ctClass.getSimpleName());
+		String testReport = this.tr.runTests(ctClass.getSimpleName());
+		sb.append(testReport);
 	}
 
 	private void loadClass() throws NotFoundException, CannotCompileException{
 		// Load classes
-		this.clo = new ClassLoader();
+		this.clo = new ClassLoader(this.classesUrl);
 		ClassPool pool = clo.loadClasses();
 		// Get method class
 		this.ctClass = clo.getCtClass(pool, "MethodOperations");
+		sb.append("<h2>* Class : MethodOperations</h2>\n");
 	}
 	
 	private void replaceMethodBodyToFalse() throws CannotCompileException, IOException {
@@ -58,8 +68,8 @@ public class MethodBodyMutator {
 		// now modifiable again
 		ctClass.defrost();
 		
-		// TODO replace prints with reporting
-		System.out.println("Method Body Replaced by (return false;)");
+		// reporting
+		sb.append("Method Body Replaced by (return false;)<br>\n");
 	}
 	
 	private void removeMethodBody() throws NotFoundException, CannotCompileException, IOException{
@@ -71,7 +81,11 @@ public class MethodBodyMutator {
 		// now modifiable again
 		ctClass.defrost();
 		
-		// TODO replace prints with reporting
-		System.out.println("Method Body Removed");
+		// reporting
+		sb.append("Method Body Removed<br>\n");
+	}
+	
+	public StringBuilder getSb() {
+		return sb;
 	}
 }

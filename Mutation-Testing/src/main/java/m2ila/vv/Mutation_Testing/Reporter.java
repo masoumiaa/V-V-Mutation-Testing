@@ -29,7 +29,7 @@ public class Reporter {
 	public void save(){
         pw.write(sb.toString());
         pw.close();
-        System.out.println("Report done!");
+        System.out.println("Report Done !");
 	}
 	
 	public String generateFileName(){

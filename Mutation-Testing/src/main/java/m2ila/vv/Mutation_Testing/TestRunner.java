@@ -16,10 +16,8 @@ public class TestRunner {
 	private String pathToTests;
 	
 	public TestRunner(String urlClasses, String urlTests){
-		this.pathToClasses = "file://"+urlClasses;
+		this.pathToClasses = "file://"+urlClasses+"target/test-classes/";
 		this.pathToTests = "file://"+urlTests+"output/";
-		System.out.println(this.pathToClasses);
-		System.out.println(this.pathToTests);
 	}
 	
 	public String runTests(String testClass) throws ClassNotFoundException, MalformedURLException, NotFoundException{
@@ -30,24 +28,24 @@ public class TestRunner {
 	       new URL(this.pathToClasses)
 	    });
 		Class<?> clazz = urlClassLoader.loadClass("m2ila.vv.inputs."+testClass+"Test");
-		System.out.println("Loaded test class : "+ testClass +'\n');
+		sb.append("Loaded test class : "+ testClass +'\n');
 		
 		JUnitCore core = new JUnitCore();
         Result result = new Result();
         result = core.run(clazz);
-        System.out.println("TESTS FINISHED");
-        System.out.println(String.format("| RUN: %d", result.getRunCount())+'\n');
+        sb.append("TESTS FINISHED<br>\n");
+        sb.append(String.format("| RUN: %d", result.getRunCount())+"<br>\n");
         if(result.wasSuccessful())
-        	System.out.println("| ALL TESTS SUCCEEDED !");
+        	sb.append("| ALL TESTS SUCCEEDED ! <br>\n");
         else
-        	System.out.println("| FAILURE ! ");
+        	sb.append("| FAILURE ! <br>\n");
         for (Failure failure : result.getFailures()){
-            System.out.println(failure.toString()+'\n');
+        	sb.append("<font color=\"red\">"+failure.toString()+"</font><br>\n");
            // System.out.println(failure.getTrace()+'\n');
         }
-        System.out.println(String.format("| TIME: %dms", result.getRunTime())+'\n');
-        System.out.println("********************************");
-        System.out.println("********************************");
+        sb.append(String.format("| TIME: %dms", result.getRunTime())+"<br>\n");
+        sb.append("********************************<br>\n");
+        sb.append("********************************<br>\n");
         return sb.toString();
 	}
 }

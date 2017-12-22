@@ -39,11 +39,21 @@ public class InstructionReplacementMutator {
 	    return places;
 	}
 	
-	public void substitue(CtMethod ctMethod, int index) throws BadBytecode{
+	public void substitue(CtMethod ctMethod, int index, boolean revert) throws BadBytecode{
 		// opcode to replace
-		int OPCODE_TO_REPLACE = this.remp.getInstrToReplace();
+		int OPCODE_TO_REPLACE ;
 		// opcode to insert
-		int OPCODE_TO_INSERT = this.remp.getInstrToInsert();		
+		int OPCODE_TO_INSERT ;
+		
+		// if revert is equal to true, we revert changes
+		if(!revert){
+			OPCODE_TO_REPLACE = this.remp.getInstrToReplace();
+			OPCODE_TO_INSERT = this.remp.getInstrToInsert();		
+		}
+		else{
+			OPCODE_TO_REPLACE = this.remp.getInstrToInsert();
+			OPCODE_TO_INSERT = this.remp.getInstrToReplace();		
+		}
 		
 		CodeAttribute _codeAttribute = ctMethod.getMethodInfo().getCodeAttribute();
 	    CodeIterator _codeIterator = _codeAttribute.iterator();
